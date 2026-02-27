@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tannushree Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --ink: #1A1612;
+    --rust: #C4612A;
+    --warm-mid: #8B7355;
+    --soft-line: rgba(26,22,18,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245,240,232,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--soft-line);
+  }
+
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rust); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 3rem 4rem;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-left { padding-right: 4rem; }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    padding: 0.35em 0.8em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+
+  h1.name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  h1.name em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--warm-mid);
+    max-width: 38ch;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.6s forwards;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 0.85em 2em;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 2px solid var(--ink);
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-primary:hover { background: var(--rust); border-color: var(--rust); }
+
+  .btn-ghost {
+    padding: 0.85em 2em;
+    background: transparent;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 2px solid var(--soft-line);
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .btn-ghost:hover { border-color: var(--rust); color: var(--rust); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 1s forwards;
+  }
+
+  .stat-card {
+    padding: 1.8rem 2rem;
+    border: 1px solid var(--soft-line);
+    background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(4px);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .stat-card:hover { transform: translateX(8px); box-shadow: -4px 4px 0 var(--rust); }
+
+  .stat-card .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: var(--rust);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-card .label {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+  }
+
+  /* ─── DIVIDER ─── */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--soft-line);
+    margin: 0;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 3rem;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--soft-line);
+    max-width: 6rem;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--warm-mid);
+    margin-bottom: 1.2rem;
+  }
+  .about-text p strong { color: var(--ink); font-weight: 500; }
+
+  .about-details { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .detail-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--soft-line);
+  }
+  .detail-item:last-child { border-bottom: none; }
+
+  .detail-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+
+  .detail-value {
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--soft-line);
+    position: relative;
+  }
+  .timeline-item:first-child { padding-top: 0; }
+
+  .timeline-meta {}
+  .timeline-period {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--warm-mid);
+    margin-bottom: 0.3rem;
+  }
+  .timeline-location {
+    font-size: 0.75rem;
+    color: var(--rust);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .timeline-content {}
+  .timeline-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    margin-bottom: 0.3rem;
+  }
+  .timeline-company {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .timeline-bullets { display: flex; flex-direction: column; gap: 0.55rem; }
+  .timeline-bullets li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--warm-mid);
+    list-style: none;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .timeline-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--rust);
+    font-size: 0.7rem;
+    top: 0.1em;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    padding: 2rem;
+    border: 1px solid var(--soft-line);
+    background: rgba(255,255,255,0.35);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .skill-group:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(26,22,18,0.08); }
+
+  .skill-group-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--soft-line);
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-size: 0.82rem;
+    padding: 0.35em 0.8em;
+    background: transparent;
+    border: 1px solid var(--soft-line);
+    color: var(--ink);
+    transition: background 0.2s, color 0.2s;
+  }
+  .skill-tag:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  /* ─── EDUCATION ─── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    padding: 2rem;
+    border: 1px solid var(--soft-line);
+    background: rgba(255,255,255,0.35);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s;
+  }
+  .edu-card:hover { transform: translateY(-4px); }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--rust);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+  .edu-card:hover::before { transform: scaleY(1); }
+
+  .edu-year {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.8rem;
+  }
+  .edu-degree {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .edu-school {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+    margin-bottom: 1rem;
+  }
+  .edu-gpa {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+  .edu-gpa span {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--rust);
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-section {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .contact-section .section-label { color: var(--rust); }
+  .contact-section .section-label::after { background: rgba(245,240,232,0.15); }
+  .contact-section .section-title { color: var(--cream); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .contact-left p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.6);
+    margin-bottom: 2rem;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--cream);
+    font-size: 0.9rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(245,240,232,0.1);
+    transition: color 0.2s;
+    group: true;
+  }
+  .contact-link:hover { color: var(--rust); }
+
+  .contact-link .link-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .contact-link .link-value { font-weight: 400; }
+
+  .contact-cta {
+    background: rgba(245,240,232,0.05);
+    border: 1px solid rgba(245,240,232,0.1);
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .contact-cta .big-email {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: var(--cream);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    word-break: break-all;
+  }
+  .contact-cta .big-email:hover { color: var(--rust); }
+
+  .contact-cta .btn-rust {
+    display: inline-block;
+    padding: 0.9em 2.2em;
+    background: var(--rust);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 2px solid var(--rust);
+    transition: background 0.25s, color 0.25s;
+  }
+  .contact-cta .btn-rust:hover { background: transparent; color: var(--rust); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 2rem 3rem;
+    background: var(--ink);
+    border-top: 1px solid rgba(245,240,232,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(245,240,232,0.3);
+    font-size: 0.78rem;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 4rem; }
+    .hero-left { padding-right: 0; }
+    .hero-right { flex-direction: row; flex-wrap: wrap; }
+    .stat-card { flex: 1; min-width: 140px; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Tannushree</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">Available for Opportunities</span>
+    <h1 class="name">Admin &amp;<br/><em>Web</em><br/>Professional</h1>
+    <p class="hero-desc">I bridge the gap between efficient operations and clean digital experiences — keeping teams organised and building interfaces that just work.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="#experience" class="btn-ghost">View My Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-card">
+      <div class="num">2+</div>
+      <div class="label">Years of professional experience</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">BCA</div>
+      <div class="label">Bachelor of Computer Applications, 7.9 GPA</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">3</div>
+      <div class="label">Roles across admin, dev &amp; operations</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-title">A generalist with<br/>a sharp eye for detail</div>
+      <p>I'm Tannushree — a BCA graduate from Jamshedpur with hands-on experience in both <strong>remote administrative support</strong> and <strong>frontend web development</strong>. I thrive in environments where organisation meets technology.</p>
+      <p>My path has taken me from coordinating workflows for a US-based client to building responsive web pages at Infotact Solutions. I enjoy wearing multiple hats and bringing calm, structured thinking to complex situations.</p>
+      <p>Whether it's streamlining a messy inbox, building a tracker in Google Sheets, or writing clean HTML — I bring the same care and precision to every task.</p>
+    </div>
+    <div class="about-details reveal">
+      <div class="detail-item">
+        <div class="detail-label">Location</div>
+        <div class="detail-value">Jamshedpur, Jharkhand, India</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Email</div>
+        <div class="detail-value">tannushree.pvt@gmail.com</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Phone</div>
+        <div class="detail-value">+91-9801664041</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">LinkedIn</div>
+        <div class="detail-value">linkedin.com/in/tannushree</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Currently Open To</div>
+        <div class="detail-value">Remote Admin, VA Roles, Entry-Level Web / UI Positions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Work Experience</div>
+  <h2 class="section-title reveal" style="margin-bottom:3rem;">Where I've<br/>contributed</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">Nov 2024 — Present</div>
+        <div class="timeline-location">Remote</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Freelance Administrative Assistant</div>
+        <div class="timeline-company">U.S.-Based Client</div>
+        <ul class="timeline-bullets">
+          <li>Coordinated email communication and scheduling via Gmail and Google Sheets to improve workflow efficiency.</li>
+          <li>Built and maintained shared trackers for tasks, deadlines, and deliverables.</li>
+          <li>Organised documents and set automated reminders for timely follow-ups.</li>
+          <li>Delivered client-specific tasks and regular updates consistently within deadlines.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">May 2025 — Aug 2025</div>
+        <div class="timeline-location">Virtual</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Web Developer Intern</div>
+        <div class="timeline-company">Infotact Solutions</div>
+        <ul class="timeline-bullets">
+          <li>Developed responsive web pages using HTML, CSS, and JavaScript.</li>
+          <li>Collaborated with developers to write clean, maintainable frontend code.</li>
+          <li>Assisted in debugging, testing, and daily task planning.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-meta">
+        <div class="timeline-period">Jun 2023 — Dec 2024</div>
+        <div class="timeline-location">Jamshedpur</div>
+      </div>
+      <div class="timeline-content">
+        <div class="timeline-role">Office Associate</div>
+        <div class="timeline-company">Budhia Infrastructure</div>
+        <ul class="timeline-bullets">
+          <li>Supported daily office operations and documentation work.</li>
+          <li>Handled customer queries and coordinated with internal teams.</li>
+          <li>Assisted supervisors with reporting and routine administrative tasks.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Skills</div>
+  <h2 class="section-title reveal" style="margin-bottom:3rem;">Tools &amp; Capabilities</h2>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Programming &amp; Web</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Java</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Database</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Tools &amp; Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MS Office</span>
+        <span class="skill-tag">Google Workspace</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Figma</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Design &amp; Other</div>
+      <div class="skill-tags">
+        <span class="skill-tag">UI/UX Basics</span>
+        <span class="skill-tag">Responsive Design</span>
+        <span class="skill-tag">Remote Coordination</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Education</div>
+  <h2 class="section-title reveal" style="margin-bottom:3rem;">Academic Background</h2>
+
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-year">2022 — 2025</div>
+      <div class="edu-degree">Bachelor of Computer Applications</div>
+      <div class="edu-school">Srinath University, Adityapur</div>
+      <div class="edu-gpa">GPA <span>7.9</span></div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">2022</div>
+      <div class="edu-degree">Intermediate (Class XII)</div>
+      <div class="edu-school">J H Tarapore School, Jamshedpur</div>
+      <div class="edu-gpa">GPA <span>7.6</span></div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-year">2020</div>
+      <div class="edu-degree">Matriculation (Class X)</div>
+      <div class="edu-school">Andhra Association English School, Jamshedpur</div>
+      <div class="edu-gpa">GPA <span>8.6</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-label">Get In Touch</div>
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <h2 class="section-title">Let's work<br/>together.</h2>
+      <p>I'm open to freelance projects, remote administrative roles, and entry-level web development opportunities. If you have something in mind, I'd love to hear from you.</p>
+      <div class="contact-links">
+        <a href="tel:+919801664041" class="contact-link">
+          <div>
+            <span class="link-label">Phone</span>
+            <span class="link-value">+91-9801664041</span>
+          </div>
+        </a>
+        <a href="https:www.linkedin.com/in/tannushree-~" target="_blank" class="contact-link">
+          <div>
+            <span class="link-label">LinkedIn</span>
+            <span class="link-value">linkedin.com/in/tannushree</span>
+          </div>
+        </a>
+        <a href="#" class="contact-link">
+          <div>
+            <span class="link-label">Location</span>
+            <span class="link-value">Jamshedpur, Jharkhand, India</span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-cta reveal">
+      <p style="font-size:0.78rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-bottom:1.2rem;">Drop me an email</p>
+      <a href="mailto:tannushree.pvt@gmail.com" class="big-email">tannushree.pvt<br/>@gmail.com</a>
+      <a href="mailto:tannushree.pvt@gmail.com" class="btn-rust">Say Hello →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Tannushree. All rights reserved.</span>
+  <span>Jamshedpur, Jharkhand, India</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
